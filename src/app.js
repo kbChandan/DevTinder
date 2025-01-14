@@ -18,9 +18,23 @@ app.delete("/user", (req, res) => {
 app.use("/user", (req, res) => {
   res.send("user data successfully");
 });
+
 app.use("/deepi", (req, res) => {
   res.send("How are u deepu rani");
 });
+
+// params
+app.get("/profile/:id", (req, res) => {
+  console.log(req.params); //{ id: '1' }
+  res.send("Send the data successfully");
+});
+
+// query
+app.get("/profile", (req, res) => {
+  console.log(req.query); //{ id: '1' }
+  res.send("Send the query successfully");
+});
+
 app.listen(4000, () => {
   console.log("Im king");
   console.log("Server is up and running succesfully");
