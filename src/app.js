@@ -37,15 +37,6 @@ app.get("/profile", (req, res) => {
   res.send("Send the query successfully");
 });
 
-// error handling middleware
-app.use((err, req, res, next) => {
-  console.error("Error:", err.stack);
-  res.status(500).send("Something broke!");
-});
-app.get("/error", (req, res, next) => {
-  const err = new Error("This is a simulated error.");
-  next(err); // Pass the error to the global error-handling middleware
-});
 //middleware for authenication
 // const authentication = (req, res, next) => {
 //   console.log("req.authentication:", req.authentication);
@@ -58,7 +49,7 @@ app.get("/protected-route", userAuth, (req, res, next) => {
   res.send("you have access!");
 });
 
-// admin
+// admin middleware
 app.use("/admin", adminAuth);
 
 app.use("/admin/getAllData", (req, res, next) => {
@@ -67,6 +58,17 @@ app.use("/admin/getAllData", (req, res, next) => {
 app.use("/admin/delete", (req, res, next) => {
   res.send("deleted user");
 });
+
+// error handling middleware : Better make use of try and catch block inside route handler
+app.get("/error", (req, res, next) => {
+  const err = new Error("This is a simulated error.");
+  next(err); // Pass the error to the global error-handling middleware
+});
+app.use((err, req, res, next) => {
+  console.error("Error:", err.stack);
+  res.status(500).send("Something broke!");
+});
+
 app.listen(4001, () => {
   console.log("Im king");
   console.log("Server is up and running succesfully");
